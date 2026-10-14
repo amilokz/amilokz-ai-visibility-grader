@@ -46,6 +46,13 @@
     <div class="spinner" id="spinner"><span class="spin"></span><span id="spinText">Fetching your site…</span></div>
     <div class="error-box" id="errBox"></div>
 
+    <details class="paste-fallback" id="pasteBox">
+      <summary>Site not loading? Paste your homepage HTML instead →</summary>
+      <p class="hint">Open your homepage in a browser → right-click → <b>View page source</b> → copy everything (Ctrl+A, Ctrl+C) → paste it below. Nothing leaves your browser.</p>
+      <textarea id="pasteArea" rows="6" placeholder="Paste your homepage HTML source here…"></textarea>
+      <button class="btn btn-accent" id="pasteBtn" style="margin-top:10px">Grade pasted HTML</button>
+    </details>
+
     <div class="results" id="results">
       <div class="score-hero">
         <div class="ring" id="ring"><div class="inner"><span class="num" id="scoreNum">0</span><span class="grd" id="gradeLetter">–</span></div></div>
@@ -260,9 +267,27 @@
       clearInterval(stepT); setLoading(false);
       showError(e && e.message === "bad_url"
         ? "Please enter a valid website address, e.g. yourbusiness.com"
-        : "Couldn't read that website. It may block automated checks, or the address is wrong. Check the URL and try again.");
+        : "Couldn't fetch that website automatically (some sites block automated checks). Paste your homepage HTML below instead — it gives the same grade.");
+      document.getElementById("pasteBox").open = true;
     });
   }
+
+  /* paste-HTML fallback */
+  document.getElementById("pasteBtn").addEventListener("click", function(){
+    errBox.classList.remove("on");
+    results.classList.remove("on");
+    var html = document.getElementById("pasteArea").value;
+    var raw = urlInput.value.trim() || "pasted-site";
+    if(!html || html.length < 200){ showError("Please paste your homepage HTML source first (View page source → copy → paste)."); return; }
+    setLoading(true, "Grading pasted HTML…");
+    AVG.gradeHtml(html, raw).then(function(res){
+      setLoading(false);
+      render(res);
+    }).catch(function(){
+      setLoading(false);
+      showError("That didn't look like valid HTML. Copy the full page source and try again.");
+    });
+  });
 
   scanBtn.addEventListener("click", doScan);
   urlInput.addEventListener("keydown", function(e){ if(e.key === "Enter") doScan(); });

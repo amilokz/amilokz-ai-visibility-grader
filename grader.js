@@ -197,18 +197,26 @@ function grade(url){
   if(!normalized) return Promise.reject(new Error("bad_url"));
   var domain = domainOf(normalized);
   return fetchHtml(normalized).then(function(html){
-    var data = runChecks(html, normalized);
-    var score = scoreOf(data.checks);
-    var grade = gradeOf(score);
-    var prev = lastResult(domain);
-    var delta = null;
-    if(prev && typeof prev.score === "number" && prev.score !== score){
-      delta = {diff: score - prev.score, prevDate: prev.date};
-    }
-    saveResult(domain, score);
-    return {url:normalized, domain:domain, score:score, grade:grade,
-            checks:data.checks, preview:aiPreview(data, domain), delta:delta};
+    return gradeHtml(html, normalized);
   });
+}
+
+/* grade pasted HTML directly (fallback when auto-fetch is blocked) */
+function gradeHtml(html, url){
+  var normalized = normalizeUrl(url) || "https://pasted-site.local/";
+  var domain = domainOf(normalized);
+  if(!html || html.length < 200) return Promise.reject(new Error("empty_html"));
+  var data = runChecks(html, normalized);
+  var score = scoreOf(data.checks);
+  var grade = gradeOf(score);
+  var prev = lastResult(domain);
+  var delta = null;
+  if(prev && typeof prev.score === "number" && prev.score !== score){
+    delta = {diff: score - prev.score, prevDate: prev.date};
+  }
+  saveResult(domain, score);
+  return Promise.resolve({url:normalized, domain:domain, score:score, grade:grade,
+          checks:data.checks, preview:aiPreview(data, domain), delta:delta});
 }
 
 /* rendering helpers */
@@ -222,7 +230,7 @@ function badgeFor(status){
 }
 
 window.AVG = {
-  grade:grade, gradeLabel:gradeLabel, gradeColor:gradeColor,
+  grade:grade, gradeHtml:gradeHtml, gradeLabel:gradeLabel, gradeColor:gradeColor,
   iconFor:iconFor, badgeFor:badgeFor, domainOf:domainOf, normalizeUrl:normalizeUrl
 };
 })();

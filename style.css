@@ -58,6 +58,9 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-
 @keyframes sp{to{transform:rotate(360deg)}}
 .error-box{display:none;margin-top:16px;background:rgba(255,107,107,.08);border:1px solid var(--bad);border-radius:10px;padding:12px 14px;font-size:14px;color:#ffb3b3}
 .error-box.on{display:block}
+.paste-fallback{margin-top:14px;border:1px dashed rgba(212,175,55,.4);border-radius:10px;padding:12px 14px;font-size:14px}
+.paste-fallback summary{cursor:pointer;color:var(--accent);font-weight:600}
+.paste-fallback textarea{width:100%;margin-top:10px;background:#0d1330;border:1px solid rgba(212,175,55,.25);border-radius:8px;color:#e8ecf8;padding:10px;font-family:monospace;font-size:12px;resize:vertical}
 
 /* results */
 .results{display:none;margin-top:22px}
