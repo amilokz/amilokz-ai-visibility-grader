@@ -16,7 +16,8 @@ function normalizeUrl(input){
 function domainOf(url){ try { return new URL(url).hostname.replace(/^www\./,""); } catch(e){ return url; } }
 
 function fetchHtml(url){
-  var attempt = function(i){
+  var MAX_RETRIES = 3;
+  var attempt = function(i, retry){
     if(i >= PROXIES.length) return Promise.reject(new Error("fetch_failed"));
     return fetch(PROXIES[i](url), {cache:"no-store"}).then(function(r){
       if(!r.ok) throw new Error("bad_status");
@@ -24,9 +25,13 @@ function fetchHtml(url){
     }).then(function(t){
       if(!t || t.length < 200) throw new Error("empty");
       return t;
-    }).catch(function(){ return attempt(i+1); });
+    }).catch(function(){
+      // free proxies are flaky — retry same proxy before moving to next
+      if(retry < MAX_RETRIES - 1) return attempt(i, retry + 1);
+      return attempt(i + 1, 0);
+    });
   };
-  return attempt(0);
+  return attempt(0, 0);
 }
 
 /* ---- the 12 checks. Each returns {status:"pass"|"fail"|"warn", detail, fix} ---- */
