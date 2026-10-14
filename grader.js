@@ -3,6 +3,8 @@
 "use strict";
 
 var PROXIES = [
+  // own serverless fetch first (same-origin, reliable) — falls back to public proxies
+  function(u){ return "/api/fetch?url=" + encodeURIComponent(u); },
   function(u){ return "https://api.allorigins.win/raw?url=" + encodeURIComponent(u); },
   function(u){ return "https://corsproxy.io/?url=" + encodeURIComponent(u); }
 ];
