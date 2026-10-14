@@ -177,11 +177,20 @@ function gradeColor(g){
 
 /* AI preview simulation — built ONLY from their own site content */
 function aiPreview(data, domain){
-  var who = data.title || data.h1 || domain;
-  var what = data.metaDesc || data.h1 || "a local business";
+  var who = (data.title || data.h1 || domain).split("|")[0].split("—")[0].trim().slice(0,80);
+  var what = (data.metaDesc || data.h1 || "a local business").trim();
+  var whatLower = what.toLowerCase();
+  var whoWords = who.toLowerCase().split(/\s+/).slice(0,3).join(" ");
+  var preview;
+  // description already introduces the business itself → use it directly (avoids "X is aY is an..." glitches)
+  if (whatLower.indexOf(whoWords) === 0 || /^[A-Z][\w&]* is (an?|the) /i.test(what)) {
+    preview = what;
+  } else {
+    preview = who + " — " + what.charAt(0).toLowerCase() + what.slice(1);
+  }
+  if (preview.length > 220) preview = preview.slice(0, 217).trim() + "...";
   return "Based on your site, an AI assistant might answer like this:\n\n\"" +
-    who.split("|")[0].split("—")[0].trim().slice(0,80) +
-    " is " + what.charAt(0).toLowerCase() + what.slice(1, 140) + "\"\n\n" +
+    preview + "\"\n\n" +
     "This is a simulation built from your title and description — not a live AI query. " +
     "Clearer titles and descriptions make this preview (and real AI answers) more accurate.";
 }
