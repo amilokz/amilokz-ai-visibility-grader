@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free FAQ Generator — AI-Friendly Questions & Answers for Your Business</title>
+<meta name="description" content="Free tool: pick your business type and get AI-friendly FAQ content to paste on your website. Pages written as Q&A get quoted by ChatGPT far more often.">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='13' fill='none' stroke='%23d4af37' stroke-width='3'/><path d='M16 9v7l5 3' stroke='%23d4af37' stroke-width='3' fill='none' stroke-linecap='round'/></svg>">
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap nav">
+    <a class="brand" href="index.html">
+      <svg class="mark" viewBox="0 0 32 32"><circle cx="16" cy="16" r="13"/><path d="M16 9v7l5 3"/></svg>
+      AI Visibility Grader
+    </a>
+    <nav class="links">
+      <a href="index.html">Grader</a>
+      <a href="compare.html">Compare</a>
+      <a href="schema-generator.html">Schema Tool</a>
+      <a href="blog/">Guides</a>
+      <a href="about.html">About</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<div class="wrap">
+  <section class="hero" style="padding-bottom:16px">
+    <span class="eyebrow">Free tool · No signup</span>
+    <h1>FAQ Content <span class="u">Generator</span></h1>
+    <p class="lead">AI assistants answer questions — so pages written as questions & answers get quoted far more often. Pick your business type, get ready-to-paste FAQs.</p>
+  </section>
+
+  <div class="tool-grid">
+    <div>
+      <div class="field"><label>Business type</label>
+        <select id="f_btype">
+          <option value="restaurant">Restaurant</option>
+          <option value="clinic">Dental / medical clinic</option>
+          <option value="salon">Hair / beauty salon</option>
+          <option value="realestate">Real estate agency</option>
+          <option value="law">Law firm</option>
+          <option value="plumber">Plumber / home services</option>
+          <option value="gym">Gym / fitness studio</option>
+          <option value="ecommerce">Online store</option>
+          <option value="generic">Other local business</option>
+        </select>
+      </div>
+      <div class="field"><label>Your business name (used in answers)</label><input type="text" id="f_bname" placeholder="Sunny Dental Clinic"></div>
+      <div class="field"><label>Your city (used in answers)</label><input type="text" id="f_bcity" placeholder="Austin"></div>
+      <button class="btn btn-accent" id="genBtn" style="width:100%">Generate FAQs</button>
+      <p class="hint" style="font-size:12.5px;color:var(--faint);margin-top:10px">Tip: edit the answers to match your real prices, hours and policies before publishing. Real details beat generic ones.</p>
+    </div>
+    <div class="output-card">
+      <h3>Your FAQs</h3>
+      <div id="faqOut"><p style="color:var(--faint);font-size:14px">Pick a type and click "Generate FAQs".</p></div>
+      <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap">
+        <button class="btn btn-ghost btn-sm" id="copyHtml">Copy as webpage code</button>
+        <button class="btn btn-ghost btn-sm" id="copyText">Copy as plain text</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-strip">
+    <div>
+      <h3>Want us to fix this for you?</h3>
+      <p>We write FAQ content, schema and review strategy for businesses — done for you.</p>
+    </div>
+    <a class="btn btn-accent" href="https://wa.me/923238559822?text=Hi!%20I%20used%20the%20FAQ%20Generator%20and%20want%20help%20with%20my%20AI%20visibility.">Chat on WhatsApp</a>
+  </div>
+</div>
+</main>
+
+<footer class="site">
+  <div class="wrap foot">
+    <span class="fine">© <span id="yr"></span> AI Visibility Grader — a free tool by <a href="https://akclnt.com" style="color:var(--accent)">AKCLNT</a>.</span>
+    <span class="fine"><a href="blog/" style="color:var(--muted)">Guides</a> · <a href="about.html" style="color:var(--muted)">About</a></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+document.getElementById("yr").textContent = new Date().getFullYear();
+
+var FAQS = {
+  restaurant: [
+    ["Do I need a reservation, or can I walk in?", "Walk-ins are welcome when tables are available, but we recommend booking ahead on weekends. Call us or book online to guarantee your table."],
+    ["What are your opening hours?", "We're open daily — check our homepage for today's exact hours and holiday schedules."],
+    ["Do you offer takeaway or delivery?", "Yes! Order by phone or through our website for pickup. Delivery is available in the local area."],
+    ["Do you cater for events or large groups?", "Yes, we cater for parties and corporate events. Contact us with your date and guest count for a quote."],
+    ["Is parking available nearby?", "Yes — details are on our contact page with directions."]
+  ],
+  clinic: [
+    ["Are you accepting new patients?", "Yes, we welcome new patients. Call us or book online — most appointments are available within the week."],
+    ["What should I bring to my first visit?", "Bring a photo ID, your insurance card if you have one, and a list of any medications you're taking."],
+    ["Do you offer emergency appointments?", "Yes — call us as early as possible and we'll fit urgent cases in the same day whenever we can."],
+    ["How much does a first consultation cost?", "Prices depend on the treatment needed. Call us for a clear quote before you book — no surprises."],
+    ["Where are you located, and is there parking?", "Our full address and parking info are on the contact page."]
+  ],
+  salon: [
+    ["Do I need to book in advance?", "Booking ahead is recommended, especially on weekends. Same-day slots sometimes open up — call to check."],
+    ["What are your prices?", "Our full price list is on the services page. Consultations before big treatments are free."],
+    ["How long does an appointment take?", "It depends on the service — most appointments run 45 to 90 minutes. We'll confirm timing when you book."],
+    ["What products do you use?", "We use professional-grade products. Ask your stylist what's best for your hair or skin type."],
+    ["What is your cancellation policy?", "Please give us at least 24 hours' notice to cancel or reschedule."]
+  ],
+  realestate: [
+    ["How do I start working with you?", "Call or message us for a free consultation. We'll discuss your goals, budget and timeline — no obligation."],
+    ["What areas do you cover?", "We specialize in the local area and surrounding neighborhoods — see our listings page for current coverage."],
+    ["How much are your fees?", "Our commission structure is transparent and discussed upfront before any agreement is signed."],
+    ["Can you help me sell my property?", "Yes — we handle valuation, photography, listings and viewings from start to sold."],
+    ["Do you work with first-time buyers?", "Absolutely. We guide first-time buyers through every step, from viewing to closing."]
+  ],
+  law: [
+    ["How much does an initial consultation cost?", "Contact us to ask — many first consultations are free or low-cost depending on the matter."],
+    ["What should I bring to my first meeting?", "Bring any documents related to your case: contracts, letters, IDs and a timeline of events."],
+    ["How long will my case take?", "It varies widely. After reviewing your situation we give you an honest, realistic timeline."],
+    ["Do you offer payment plans?", "Ask us — flexible fee arrangements are available for many types of cases."],
+    ["Is everything I tell you confidential?", "Yes. Your consultation is protected by attorney-client confidentiality."]
+  ],
+  plumber: [
+    ["Do you offer emergency callouts?", "Yes — we handle urgent issues like leaks and blockages. Call us any time for emergency help."],
+    ["How much do you charge?", "Call-out fees and hourly rates are quoted upfront before any work starts. No hidden charges."],
+    ["Which areas do you serve?", "We cover the local area and nearby towns — check our contact page for the full service area."],
+    ["Do you guarantee your work?", "Yes, all our work is guaranteed. If something isn't right, we come back and fix it."],
+    ["How fast can you get here?", "For emergencies we aim for same-day service. Standard bookings are usually within 48 hours."]
+  ],
+  gym: [
+    ["Do I need experience to join?", "No — beginners are welcome. Our trainers will build a plan around your level."],
+    ["What are your membership options?", "We offer monthly and annual plans, plus class packs. See the pricing page for current rates."],
+    ["What are your opening hours?", "Check our homepage for today's hours — we're open 7 days a week."],
+    ["Do you offer personal training?", "Yes, one-on-one coaching is available. Book a free intro session to meet a trainer."],
+    ["Can I try before I join?", "Yes — ask us about a trial session or day pass."]
+  ],
+  ecommerce: [
+    ["How long does delivery take?", "Standard delivery takes 3–5 business days. Express options are shown at checkout."],
+    ["What is your return policy?", "Unused items can be returned within 30 days for a full refund. See our returns page for details."],
+    ["How can I track my order?", "You'll get a tracking link by email as soon as your order ships."],
+    ["Is my payment information safe?", "Yes — all payments are processed over secure encrypted connections. We never store card numbers."],
+    ["Do you ship internationally?", "Check our shipping page for the current list of countries we deliver to."]
+  ],
+  generic: [
+    ["What services do you offer?", "See our services page for the full list — or call us and we'll point you to the right option."],
+    ["How do I get started?", "Call us or send a message through the contact page. We'll take it from there — no obligation."],
+    ["What are your opening hours?", "Check our homepage for today's hours and holiday schedules."],
+    ["Where are you located?", "Our full address, map and parking info are on the contact page."],
+    ["How much does it cost?", "Prices depend on what you need. Contact us for a clear, honest quote before you commit."]
+  ]
+};
+
+var current = [];
+function render(){
+  var box = document.getElementById("faqOut");
+  box.innerHTML = current.map(function(f){
+    return '<div class="faq-item"><div class="fq">Q: ' + f[0] + '</div><div class="fa">A: ' + f[1] + '</div></div>';
+  }).join("");
+}
+
+document.getElementById("genBtn").addEventListener("click", function(){
+  var type = document.getElementById("f_btype").value;
+  var name = document.getElementById("f_bname").value.trim() || "our business";
+  var city = document.getElementById("f_bcity").value.trim();
+  current = FAQS[type].map(function(f){
+    var a = f[1].replace(/our business/g, name);
+    if(city) a = a.replace(/the local area/g, city);
+    return [f[0], a];
+  });
+  render();
+});
+
+function asHtml(){
+  var items = current.map(function(f){
+    return '  {\n    "@type": "Question",\n    "name": "' + f[0].replace(/"/g,'\\"') + '",\n' +
+           '    "acceptedAnswer": {"@type": "Answer", "text": "' + f[1].replace(/"/g,'\\"') + '"}\n  }';
+  }).join(",\n");
+  return '<script type="application/ld+json">\n{\n  "@context": "https://schema.org",\n  "@type": "FAQPage",\n  "mainEntity": [\n' +
+    items + '\n  ]\n}\n<\/script>';
+}
+function asText(){
+  return current.map(function(f){ return "Q: " + f[0] + "\nA: " + f[1]; }).join("\n\n");
+}
+document.getElementById("copyHtml").addEventListener("click", function(){
+  navigator.clipboard.writeText(asHtml()).then(function(){
+    document.getElementById("copyHtml").textContent = "Copied!";
+    setTimeout(function(){ document.getElementById("copyHtml").textContent = "Copy as webpage code"; }, 2000);
+  });
+});
+document.getElementById("copyText").addEventListener("click", function(){
+  navigator.clipboard.writeText(asText()).then(function(){
+    document.getElementById("copyText").textContent = "Copied!";
+    setTimeout(function(){ document.getElementById("copyText").textContent = "Copy as plain text"; }, 2000);
+  });
+});
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Compare AI Visibility — Your Site vs a Competitor (Free)</title>
+<meta name="description" content="Free tool: grade your website side-by-side against a competitor and see exactly where you're losing AI visibility.">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='13' fill='none' stroke='%23d4af37' stroke-width='3'/><path d='M16 9v7l5 3' stroke='%23d4af37' stroke-width='3' fill='none' stroke-linecap='round'/></svg>">
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap nav">
+    <a class="brand" href="index.html">
+      <svg class="mark" viewBox="0 0 32 32"><circle cx="16" cy="16" r="13"/><path d="M16 9v7l5 3"/></svg>
+      AI Visibility Grader
+    </a>
+    <nav class="links">
+      <a href="index.html">Grader</a>
+      <a href="compare.html" class="active">Compare</a>
+      <a href="schema-generator.html">Schema Tool</a>
+      <a href="blog/">Guides</a>
+      <a href="about.html">About</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<div class="wrap">
+  <section class="hero" style="padding-bottom:16px">
+    <span class="eyebrow">Free tool · No signup</span>
+    <h1>You vs <span class="u">Competitor</span></h1>
+    <p class="lead">Enter your website and a competitor's. See both AI-visibility grades side by side — and exactly which checks they're winning.</p>
+  </section>
+
+  <section class="grader">
+    <div class="tool-grid" style="grid-template-columns:1fr 1fr;margin-top:0">
+      <div class="field"><label>Your website</label><input type="url" id="urlA" placeholder="yourbusiness.com"></div>
+      <div class="field"><label>Competitor's website</label><input type="url" id="urlB" placeholder="competitor.com"></div>
+    </div>
+    <button class="btn btn-accent" id="cmpBtn" style="width:100%;margin-top:6px">Compare both sites</button>
+    <div class="spinner" id="spinner"><span class="spin"></span><span id="spinText">Grading site 1 of 2…</span></div>
+    <div class="error-box" id="errBox"></div>
+
+    <div class="results" id="results">
+      <div class="vs-grid" id="vsGrid"></div>
+      <div class="ai-preview" id="gapBox" style="display:none">
+        <div class="lbl">Where you're losing</div>
+        <div id="gapList" style="font-size:14px;color:var(--muted)"></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="cta-strip">
+    <div>
+      <h3>Losing to a competitor?</h3>
+      <p>We close AI-visibility gaps for businesses: schema, FAQs, reviews and content — done for you.</p>
+    </div>
+    <a class="btn btn-accent" href="https://wa.me/923238559822?text=Hi!%20I%20compared%20my%20site%20with%20a%20competitor%20and%20want%20help%20winning.">Chat on WhatsApp</a>
+  </div>
+</div>
+</main>
+
+<footer class="site">
+  <div class="wrap foot">
+    <span class="fine">© <span id="yr"></span> AI Visibility Grader — a free tool by <a href="https://akclnt.com" style="color:var(--accent)">AKCLNT</a>.</span>
+    <span class="fine"><a href="blog/" style="color:var(--muted)">Guides</a> · <a href="about.html" style="color:var(--muted)">About</a></span>
+  </div>
+</footer>
+
+<script src="grader.js"></script>
+<script>
+(function(){
+"use strict";
+document.getElementById("yr").textContent = new Date().getFullYear();
+var urlA = document.getElementById("urlA"), urlB = document.getElementById("urlB"),
+    cmpBtn = document.getElementById("cmpBtn"), spinner = document.getElementById("spinner"),
+    spinText = document.getElementById("spinText"), errBox = document.getElementById("errBox"),
+    results = document.getElementById("results");
+
+function showError(m){ errBox.textContent = m; errBox.classList.add("on"); }
+
+function colHtml(res, isWinner, label){
+  var rows = res.checks.map(function(c){
+    var mark, col;
+    if(c.status === "pass"){ mark = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>'; col = "var(--ok)"; }
+    else if(c.status === "warn"){ mark = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 9v4m0 4h.01M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></svg>'; col = "var(--warn)"; }
+    else { mark = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M18 6L6 18M6 6l12 12"/></svg>'; col = "var(--bad)"; }
+    return '<div class="row"><span>' + c.name + '</span><span style="color:' + col + ';display:inline-flex">' + mark + '</span></div>';
+  }).join("");
+  return '<div class="site-col' + (isWinner ? " winner" : "") + '">' +
+    (isWinner ? '<span class="winner-tag">Winner</span>' : '') +
+    '<div style="font-size:12px;color:var(--faint);text-transform:uppercase;letter-spacing:.06em">' + label + '</div>' +
+    '<div style="font-weight:700;margin:4px 0 8px;word-break:break-all">' + res.domain + '</div>' +
+    '<div class="mini-score" style="color:' + AVG.gradeColor(res.grade) + '">' + res.score + '<span style="font-size:18px;color:var(--muted)">/100 · ' + res.grade + '</span></div>' +
+    '<div class="mini-checks">' + rows + '</div></div>';
+}
+
+function doCompare(){
+  errBox.classList.remove("on"); results.classList.remove("on");
+  var a = urlA.value.trim(), b = urlB.value.trim();
+  if(!AVG.normalizeUrl(a) || !AVG.normalizeUrl(b)){ showError("Please enter two valid website addresses."); return; }
+  if(AVG.domainOf(AVG.normalizeUrl(a)) === AVG.domainOf(AVG.normalizeUrl(b))){ showError("Those are the same website — enter two different sites."); return; }
+  cmpBtn.disabled = true; spinner.classList.add("on");
+  spinText.textContent = "Grading site 1 of 2…";
+  AVG.grade(a).then(function(ra){
+    spinText.textContent = "Grading site 2 of 2…";
+    return AVG.grade(b).then(function(rb){ return [ra, rb]; });
+  }).then(function(pair){
+    spinner.classList.remove("on"); cmpBtn.disabled = false;
+    var ra = pair[0], rb = pair[1];
+    var aWin = ra.score > rb.score, bWin = rb.score > ra.score;
+    document.getElementById("vsGrid").innerHTML =
+      colHtml(ra, aWin, "Your site") + '<div class="vs-badge">VS</div>' + colHtml(rb, bWin, "Competitor");
+
+    /* gap analysis: checks competitor passes but you don't */
+    var gaps = [];
+    ra.checks.forEach(function(c, i){
+      var oc = rb.checks[i];
+      if(oc.status === "pass" && c.status !== "pass") gaps.push({name:c.name, fix:c.fix});
+    });
+    var gb = document.getElementById("gapBox"), gl = document.getElementById("gapList");
+    if(gaps.length){
+      gb.style.display = "block";
+      gl.innerHTML = "<ul style='margin-left:18px'>" + gaps.map(function(g){
+        return "<li style='margin-bottom:8px'><b style='color:var(--fg)'>" + g.name + ":</b> " + g.fix + "</li>";
+      }).join("") + "</ul>";
+    } else {
+      gb.style.display = "block";
+      gl.innerHTML = aWin ? "You're ahead on every check — nice work. Keep publishing fresh content to stay there."
+                         : "Dead even. The next win comes from fresh content and more reviews.";
+    }
+    results.classList.add("on");
+    results.scrollIntoView({behavior:"smooth", block:"start"});
+  }).catch(function(){
+    spinner.classList.remove("on"); cmpBtn.disabled = false;
+    showError("Couldn't read one of those websites. Check both addresses and try again.");
+  });
+}
+cmpBtn.addEventListener("click", doCompare);
+})();
+</script>
+</body>
+</html>

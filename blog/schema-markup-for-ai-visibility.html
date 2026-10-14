@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Schema Markup for AI Visibility — Beginner's Guide</title>
+<meta name="description" content="What schema markup is, why AI assistants depend on it, and how to add LocalBusiness schema to your site in 10 minutes — no coding needed.">
+<link rel="stylesheet" href="../style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='13' fill='none' stroke='%23d4af37' stroke-width='3'/><path d='M16 9v7l5 3' stroke='%23d4af37' stroke-width='3' fill='none' stroke-linecap='round'/></svg>">
+</head>
+<body>
+<header class="site"><div class="wrap nav">
+<a class="brand" href="../index.html"><svg class="mark" viewBox="0 0 32 32"><circle cx="16" cy="16" r="13"/><path d="M16 9v7l5 3"/></svg>AI Visibility Grader</a>
+<nav class="links"><a href="../index.html">Grader</a><a href="../compare.html">Compare</a><a href="../schema-generator.html">Schema Tool</a><a href="index.html" class="active">Guides</a><a href="../about.html">About</a></nav>
+</div></header>
+<main><div class="post">
+<h1>Schema Markup for AI Visibility (Beginner's Guide)</h1>
+<p class="meta">Guide · 5 min read</p>
+
+<h2>What is schema markup?</h2>
+<p>Imagine your website is a person introducing themselves. Without schema, the introduction sounds like: <i>"Hi, I'm... uh... we do stuff."</i> With schema, it sounds like: <i>"Hi, I'm Sunny Dental Clinic, a dentist at 123 Main Street, Austin, open Monday to Friday 9–6, phone 555-1234."</i></p>
+<p>Schema markup is a small block of code that states the facts about your business in a format Google and AI assistants read directly. Humans never see it — machines do.</p>
+
+<h2>Why AI assistants depend on it</h2>
+<p>When someone asks ChatGPT "find a dentist near me," the AI needs <b>facts</b>: names, addresses, hours, services. Websites with schema hand over those facts on a plate. Websites without it force the AI to guess from paragraphs of marketing text — and AI doesn't guess, it moves on to a competitor that made it easy.</p>
+
+<h2>What should your schema include?</h2>
+<ul>
+<li>Business name and type (dentist, restaurant, plumber…)</li>
+<li>Full street address</li>
+<li>Phone number</li>
+<li>Opening hours</li>
+<li>Website URL and a short description</li>
+</ul>
+
+<h2>How to add it (10 minutes, no coding)</h2>
+<ol>
+<li>Open our <a href="../schema-generator.html">free Schema Generator</a>.</li>
+<li>Fill in your business details.</li>
+<li>Click generate, then copy the code.</li>
+<li>Paste it into the <b>&lt;head&gt;</b> section of your homepage. (In WordPress: use a plugin like "Insert Headers and Footers." Or ask your developer — it's a 2-minute job.)</li>
+<li>Re-run the <a href="../index.html">AI Visibility Grader</a> — the schema check should turn green.</li>
+</ol>
+
+<h2>Common mistakes</h2>
+<ul>
+<li><b>Wrong business type</b> — pick the closest match (Dentist, not generic LocalBusiness, if you're a dentist).</li>
+<li><b>Outdated hours</b> — update schema when hours change, especially holidays.</li>
+<li><b>Only on the homepage</b> — ideally every page carries it, but homepage-first is fine to start.</li>
+</ul>
+
+<div class="cta-box"><h3>Generate your schema free</h3><p>Two minutes, no signup, copy-paste ready.</p><p style="margin-top:14px"><a class="btn btn-accent" href="../schema-generator.html">Open Schema Generator</a></p></div>
+</div></main>
+<footer class="site"><div class="wrap foot">
+<span class="fine">© <span id="yr"></span> AI Visibility Grader — a free tool by <a href="https://akclnt.com" style="color:var(--accent)">AKCLNT</a>.</span>
+<span class="fine"><a href="index.html" style="color:var(--muted)">All guides</a></span>
+</div></footer>
+<script>document.getElementById("yr").textContent = new Date().getFullYear();</script>
+</body>
+</html>

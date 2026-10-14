@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free Schema Markup Generator — LocalBusiness JSON-LD for AI Visibility</title>
+<meta name="description" content="Free tool: fill in your business details and get copy-paste Schema.org LocalBusiness code that helps Google and AI assistants understand your business.">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='13' fill='none' stroke='%23d4af37' stroke-width='3'/><path d='M16 9v7l5 3' stroke='%23d4af37' stroke-width='3' fill='none' stroke-linecap='round'/></svg>">
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap nav">
+    <a class="brand" href="index.html">
+      <svg class="mark" viewBox="0 0 32 32"><circle cx="16" cy="16" r="13"/><path d="M16 9v7l5 3"/></svg>
+      AI Visibility Grader
+    </a>
+    <nav class="links">
+      <a href="index.html">Grader</a>
+      <a href="compare.html">Compare</a>
+      <a href="schema-generator.html" class="active">Schema Tool</a>
+      <a href="blog/">Guides</a>
+      <a href="about.html">About</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<div class="wrap">
+  <section class="hero" style="padding-bottom:16px">
+    <span class="eyebrow">Free tool · No signup</span>
+    <h1>Schema Markup <span class="u">Generator</span></h1>
+    <p class="lead">Fill in your business details. Get ready-to-paste code that tells Google, ChatGPT and other AI assistants exactly who you are, where you are, and when you're open.</p>
+  </section>
+
+  <div class="tool-grid">
+    <div>
+      <div class="field"><label>Business name *</label><input type="text" id="f_name" placeholder="Sunny Dental Clinic"></div>
+      <div class="field"><label>Business type</label>
+        <select id="f_type">
+          <option value="LocalBusiness">General local business</option>
+          <option value="Dentist">Dental clinic</option>
+          <option value="Restaurant">Restaurant</option>
+          <option value="HairSalon">Hair / beauty salon</option>
+          <option value="RealEstateAgent">Real estate agency</option>
+          <option value="LegalService">Law firm</option>
+          <option value="Plumber">Plumber</option>
+          <option value="MedicalClinic">Medical clinic</option>
+          <option value="Gym">Gym / fitness</option>
+          <option value="Store">Retail store</option>
+          <option value="ProfessionalService">Professional service</option>
+        </select>
+      </div>
+      <div class="field"><label>Phone</label><input type="tel" id="f_phone" placeholder="+1 555 123 4567"></div>
+      <div class="field"><label>Website URL</label><input type="url" id="f_url" placeholder="https://yourbusiness.com"></div>
+      <div class="field"><label>Street address</label><input type="text" id="f_street" placeholder="123 Main Street"></div>
+      <div class="tool-grid" style="grid-template-columns:1fr 1fr;margin-top:0">
+        <div class="field"><label>City</label><input type="text" id="f_city" placeholder="Austin"></div>
+        <div class="field"><label>Postal code</label><input type="text" id="f_zip" placeholder="78701"></div>
+      </div>
+      <div class="field"><label>Opening hours (e.g. Mo-Fr 09:00-18:00)</label><input type="text" id="f_hours" placeholder="Mo-Fr 09:00-18:00"></div>
+      <div class="field"><label>Short description</label><textarea id="f_desc" rows="3" placeholder="Family dental clinic offering checkups, whitening and braces."></textarea></div>
+      <button class="btn btn-accent" id="genBtn" style="width:100%">Generate my code</button>
+      <p class="hint" style="font-size:12.5px;color:var(--faint);margin-top:10px">Paste the code into the &lt;head&gt; section of your homepage. Ask your web developer if you're unsure — it takes 2 minutes.</p>
+    </div>
+    <div class="output-card">
+      <h3>Your Schema.org code</h3>
+      <pre class="code" id="outCode">// Fill in the form and click "Generate my code".</pre>
+      <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap">
+        <button class="btn btn-ghost btn-sm" id="copyBtn">Copy code</button>
+      </div>
+      <h3 style="margin-top:20px">How to check it worked</h3>
+      <p style="font-size:14px;color:var(--muted)">After adding the code, re-run the <a href="index.html" style="color:var(--accent)">AI Visibility Grader</a> — the "Business info" check should turn green.</p>
+    </div>
+  </div>
+
+  <div class="cta-strip">
+    <div>
+      <h3>Want us to fix this for you?</h3>
+      <p>We set up schema, FAQs and review strategy for businesses — done for you.</p>
+    </div>
+    <a class="btn btn-accent" href="https://wa.me/923238559822?text=Hi!%20I%20used%20the%20Schema%20Generator%20and%20want%20help%20with%20my%20AI%20visibility.">Chat on WhatsApp</a>
+  </div>
+</div>
+</main>
+
+<footer class="site">
+  <div class="wrap foot">
+    <span class="fine">© <span id="yr"></span> AI Visibility Grader — a free tool by <a href="https://akclnt.com" style="color:var(--accent)">AKCLNT</a>.</span>
+    <span class="fine"><a href="blog/" style="color:var(--muted)">Guides</a> · <a href="about.html" style="color:var(--muted)">About</a></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+document.getElementById("yr").textContent = new Date().getFullYear();
+function v(id){ return document.getElementById(id).value.trim(); }
+function esc(s){ return s.replace(/\\/g,"\\\\").replace(/"/g,'\\"').replace(/\n/g,"\\n"); }
+
+document.getElementById("genBtn").addEventListener("click", function(){
+  var name = v("f_name");
+  if(!name){ document.getElementById("outCode").textContent = "// Please enter at least your business name."; return; }
+  var schema = {
+    "@context": "https://schema.org",
+    "@type": v("f_type") || "LocalBusiness",
+    "name": name
+  };
+  if(v("f_desc")) schema.description = v("f_desc");
+  if(v("f_url")) schema.url = v("f_url");
+  if(v("f_phone")) schema.telephone = v("f_phone");
+  if(v("f_street") || v("f_city") || v("f_zip")){
+    schema.address = {"@type":"PostalAddress"};
+    if(v("f_street")) schema.address.streetAddress = v("f_street");
+    if(v("f_city")) schema.address.addressLocality = v("f_city");
+    if(v("f_zip")) schema.address.postalCode = v("f_zip");
+  }
+  if(v("f_hours")) schema.openingHours = v("f_hours");
+  var json = JSON.stringify(schema, null, 2);
+  document.getElementById("outCode").textContent =
+    '<script type="application/ld+json">\n' + json + '\n<\/script>';
+});
+document.getElementById("copyBtn").addEventListener("click", function(){
+  var t = document.getElementById("outCode").textContent;
+  navigator.clipboard.writeText(t).then(function(){
+    document.getElementById("copyBtn").textContent = "Copied!";
+    setTimeout(function(){ document.getElementById("copyBtn").textContent = "Copy code"; }, 2000);
+  });
+});
+})();
+</script>
+</body>
+</html>
