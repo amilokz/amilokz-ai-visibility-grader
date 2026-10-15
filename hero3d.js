@@ -10,7 +10,11 @@ try{ if(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)
 var ctx = canvas.getContext("2d");
 if(!ctx) return;
 
-var GOLD = "212,175,55";
+var GOLD = "146,114,26"; /* light-theme default; refreshed per frame for dark mode */
+function refreshGold(){
+  try{ GOLD = document.documentElement.getAttribute("data-theme")==="dark" ? "212,175,55" : "146,114,26"; }
+  catch(e){ GOLD = "146,114,26"; }
+}
 
 /* ---------- icosahedron shell ---------- */
 var PHI = (1 + Math.sqrt(5)) / 2;
@@ -100,6 +104,7 @@ var t=0, meteorT=0;
 function frame(){
   requestAnimationFrame(frame);
   if(!running || !inView) return;
+  refreshGold();
   t += 0.016;
   mx += (tmx-mx)*0.04; my += (tmy-my)*0.04;
   ctx.clearRect(0,0,W,H);
