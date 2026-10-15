@@ -171,6 +171,66 @@ footer.site{border-top:1px solid var(--line);padding:34px 0;margin-top:20px}
 .cta-strip p{color:var(--muted);font-size:14px;margin-top:6px}
 
 /* print */
+/* hero 3D canvas */
+.hero-3d{position:relative;overflow:hidden}
+#hero3d{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.6;
+  -webkit-mask-image:radial-gradient(ellipse 95% 95% at 50% 45%, black 25%, transparent 78%);
+  mask-image:radial-gradient(ellipse 95% 95% at 50% 45%, black 25%, transparent 78%)}
+.hero-inner{position:relative;z-index:1}
+.eyebrow-hot{margin-left:8px;border-color:rgba(212,175,55,.5);color:#ffd24a;text-decoration:none;transition:.15s}
+.eyebrow-hot:hover{background:var(--accent-soft);border-color:var(--accent)}
+
+/* mode toggle */
+.mode-toggle{display:flex;gap:8px;margin-bottom:10px}
+.mode-pill{flex:1;border:1px solid var(--line);background:var(--bg);color:var(--muted);
+  border-radius:10px;padding:10px;font-size:14px;font-weight:700;cursor:pointer;transition:.15s;font-family:inherit}
+.mode-pill:hover{border-color:var(--accent);color:var(--fg)}
+.mode-pill.active{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.mode-desc{font-size:13px;color:var(--faint);margin:-2px 0 14px}
+
+/* roast mode */
+#roastWrap{display:none}
+.roast-hero{background:linear-gradient(135deg,#2a1410,#131a38);border:1px solid rgba(255,120,60,.35);
+  border-radius:var(--radius);padding:26px;text-align:center;position:relative;overflow:hidden}
+.roast-flame{font-size:52px;animation:flick 1.6s ease-in-out infinite}
+@keyframes flick{0%,100%{transform:scale(1) rotate(-2deg)}50%{transform:scale(1.12) rotate(2deg)}}
+.roast-kicker{display:inline-block;font-size:11px;letter-spacing:.14em;color:#ff9a5c;font-weight:800;
+  text-transform:uppercase;margin:10px 0 6px}
+.roast-head h2{font-size:24px;word-break:break-all}
+.roast-grade{--rc:var(--accent);display:inline-flex;align-items:baseline;gap:10px;margin-top:10px;
+  background:rgba(0,0,0,.35);border:1px solid var(--rc);border-radius:12px;padding:8px 18px}
+.rg-num{font-size:34px;font-weight:800;color:var(--rc)}
+.rg-let{font-size:15px;font-weight:700;color:var(--fg)}
+.roast-overall{max-width:60ch;margin:16px auto 0;color:var(--fg);font-size:16px}
+.roast-counts{display:flex;gap:8px;justify-content:center;margin-top:14px;flex-wrap:wrap}
+.rc{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;border-radius:7px;padding:4px 12px}
+.rc.bad{background:rgba(255,107,107,.15);color:var(--bad)}
+.rc.warn{background:rgba(255,210,74,.15);color:var(--warn)}
+.rc.ok{background:rgba(54,211,153,.15);color:var(--ok)}
+.roast-sec{font-size:19px;margin:26px 0 12px}
+.roast-list{display:flex;flex-direction:column;gap:10px}
+.roast-item{background:var(--surface-2);border:1px solid var(--line);border-left-width:4px;
+  border-radius:10px;padding:13px 15px}
+.roast-item.fail{border-left-color:#ff7a45}
+.roast-item.warn{border-left-color:var(--warn)}
+.roast-item.pass{border-left-color:var(--ok)}
+.roast-item .rl{font-size:15px;font-weight:600}
+.roast-item .rfix{margin-top:8px;font-size:13.5px;color:var(--muted)}
+.roast-item .rfix b{color:var(--accent)}
+.roast-passes{margin-top:18px;background:var(--surface);border:1px dashed var(--line);
+  border-radius:10px;padding:12px 16px;font-size:14px}
+.roast-passes summary{cursor:pointer;color:var(--accent);font-weight:700}
+/* shareable roast card */
+.roast-card{margin-top:26px;background:linear-gradient(135deg,#1c0f0a,#131a38 70%);
+  border:1px solid rgba(255,120,60,.4);border-radius:16px;padding:28px 24px;text-align:center}
+.rc-flame{font-size:44px}
+.rc-domain{font-size:22px;font-weight:800;margin-top:8px;word-break:break-all}
+.rc-grade{font-size:30px;font-weight:800;margin-top:6px}
+.rc-grade span{font-size:16px;color:var(--muted);font-weight:600}
+.rc-line{margin:14px auto 0;max-width:52ch;font-size:15px;color:var(--fg);font-style:italic}
+.rc-foot{margin-top:16px;font-size:12px;color:var(--faint);letter-spacing:.04em}
+.roast-share{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;justify-content:center}
+
 @media print{
   header.site,.grader .url-row,.result-actions,.cta-strip,footer.site .foot .btn{display:none!important}
   body{background:#fff;color:#111}

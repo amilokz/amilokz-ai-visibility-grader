@@ -71,14 +71,23 @@
 
 <main>
 <div class="wrap">
-  <section class="hero">
+  <section class="hero hero-3d">
+    <canvas id="hero3d" aria-hidden="true"></canvas>
+    <div class="hero-inner">
     <span class="eyebrow">Free tool · No signup</span>
+    <a class="eyebrow eyebrow-hot" href="#grader">🔥 New: Roast Mode — get your site roasted</a>
     <h1>Will <span class="u">ChatGPT</span> recommend your business?</h1>
     <p class="lead">Customers now ask AI assistants — not Google — where to go. Enter your website URL and get a free A–F grade showing how visible your business is to ChatGPT, Perplexity and Gemini, plus plain-English fixes.</p>
     <p class="honest">Honest note: this grades the <b>signals</b> AI assistants use (business data, reviews, FAQs, fresh content) by reading your site — it is not a live ChatGPT query. Fix the signals, and real AI mentions follow.</p>
+    </div>
   </section>
 
   <section class="grader" id="grader">
+    <div class="mode-toggle" role="tablist" aria-label="Grader mode">
+      <button class="mode-pill active" id="modeGrade" role="tab" aria-selected="true">📊 Grade Mode</button>
+      <button class="mode-pill" id="modeRoast" role="tab" aria-selected="false">🔥 Roast Mode</button>
+    </div>
+    <p class="mode-desc" id="modeDesc">The serious A–F grade with plain-English fixes.</p>
     <label for="url">Your website address</label>
     <div class="url-row">
       <input type="url" id="url" placeholder="yourbusiness.com" autocomplete="url" inputmode="url">
@@ -117,6 +126,7 @@
           <div class="a" id="aiPreviewText" style="white-space:pre-wrap"></div>
         </div>
       </div>
+      <div id="roastWrap"></div>
     </div>
   </section>
 </div>
@@ -198,6 +208,8 @@
 </footer>
 
 <script src="grader.js"></script>
+<script src="roast.js"></script>
+<script src="hero3d.js"></script>
 <script>
 (function(){
   "use strict";
@@ -237,6 +249,31 @@
       errBox = document.getElementById("errBox"),
       results = document.getElementById("results");
 
+  /* ---- mode toggle: Grade vs Roast ---- */
+  var mode = "grade";
+  try{ mode = localStorage.getItem("avg_mode") || "grade"; }catch(e){}
+  if(mode !== "roast") mode = "grade";
+  var modeGradeBtn = document.getElementById("modeGrade"),
+      modeRoastBtn = document.getElementById("modeRoast"),
+      modeDesc = document.getElementById("modeDesc");
+  var GRADE_STEPS = ["Fetching your site…","Reading your pages…","Checking 12 AI signals…","Calculating your grade…"];
+  var ROAST_STEPS = ["Warming up the flamethrower…","Reading your site…","Finding things to roast…","Plating your roast…"];
+  function applyMode(){
+    var roast = (mode === "roast");
+    modeGradeBtn.classList.toggle("active", !roast);
+    modeRoastBtn.classList.toggle("active", roast);
+    modeGradeBtn.setAttribute("aria-selected", String(!roast));
+    modeRoastBtn.setAttribute("aria-selected", String(roast));
+    modeDesc.textContent = roast
+      ? "Same 12 checks. Zero mercy. Get roasted — then get the fixes."
+      : "The serious A–F grade with plain-English fixes.";
+    scanBtn.textContent = roast ? "🔥 Roast my site" : "Grade my site";
+    try{ localStorage.setItem("avg_mode", mode); }catch(e){}
+  }
+  modeGradeBtn.addEventListener("click", function(){ mode="grade"; applyMode(); });
+  modeRoastBtn.addEventListener("click", function(){ mode="roast"; applyMode(); });
+  applyMode();
+
   function setLoading(on, msg){
     spinner.classList.toggle("on", on);
     scanBtn.disabled = on;
@@ -248,6 +285,19 @@
   }
 
   function render(res){
+    var roastWrap = document.getElementById("roastWrap");
+    var gradeBits = results.querySelectorAll(":scope > :not(#roastWrap)");
+    if(mode === "roast" && window.Roast){
+      for(var gi=0; gi<gradeBits.length; gi++) gradeBits[gi].style.display = "none";
+      results.classList.add("on");
+      roastWrap.style.display = "block";
+      window.Roast.renderInto(roastWrap, res);
+      results.scrollIntoView({behavior:"smooth", block:"start"});
+      return;
+    }
+    for(var gj=0; gj<gradeBits.length; gj++) gradeBits[gj].style.display = "";
+    roastWrap.style.display = "none";
+    roastWrap.innerHTML = "";
     results.classList.add("on");
     var ring = document.getElementById("ring");
     ring.style.setProperty("--p", res.score);
@@ -300,7 +350,7 @@
     var raw = urlInput.value.trim();
     if(!AVG.normalizeUrl(raw)){ showError("Please enter a valid website address, e.g. yourbusiness.com"); return; }
     setLoading(true, "Fetching your site…");
-    var steps = ["Fetching your site…","Reading your pages…","Checking 12 AI signals…","Calculating your grade…"];
+    var steps = (mode === "roast") ? ROAST_STEPS : GRADE_STEPS;
     var si = 0;
     var stepT = setInterval(function(){ si = (si+1) % steps.length; spinText.textContent = steps[si]; }, 1800);
     AVG.grade(raw).then(function(res){
@@ -322,7 +372,7 @@
     var html = document.getElementById("pasteArea").value;
     var raw = urlInput.value.trim() || "pasted-site";
     if(!html || html.length < 200){ showError("Please paste your homepage HTML source first (View page source → copy → paste)."); return; }
-    setLoading(true, "Grading pasted HTML…");
+    setLoading(true, mode === "roast" ? "Roasting pasted HTML…" : "Grading pasted HTML…");
     AVG.gradeHtml(html, raw).then(function(res){
       setLoading(false);
       render(res);
