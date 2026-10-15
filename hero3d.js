@@ -104,8 +104,7 @@ function frame(){
   mx += (tmx-mx)*0.04; my += (tmy-my)*0.04;
   ctx.clearRect(0,0,W,H);
 
-  var cx = W*0.74, cy = H*0.52;
-  if(W < 720){ cx = W*0.5; cy = H*0.68; }
+  var cx = W*0.5, cy = H*0.48; /* centered in the visual stage panel */
   var R = Math.min(W,H)*0.30;
   var pulse = 0.75 + 0.25*Math.sin(t*2.1);
 

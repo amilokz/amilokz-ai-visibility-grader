@@ -74,14 +74,32 @@
 
 <main>
 <div class="wrap">
-  <section class="hero hero-3d">
-    <canvas id="hero3d" aria-hidden="true"></canvas>
-    <div class="hero-inner">
-    <span class="eyebrow">Free tool · No signup</span>
-    <a class="eyebrow eyebrow-hot" href="#grader">🔥 New: Roast Mode — get your site roasted</a>
-    <h1>Will <span class="u">ChatGPT</span> recommend your business?</h1>
-    <p class="lead">Customers now ask AI assistants — not Google — where to go. Enter your website URL and get a free A–F grade showing how visible your business is to ChatGPT, Perplexity and Gemini, plus plain-English fixes.</p>
-    <p class="honest">Honest note: this grades the <b>signals</b> AI assistants use (business data, reviews, FAQs, fresh content) by reading your site — it is not a live ChatGPT query. Fix the signals, and real AI mentions follow.</p>
+  <section class="hero hero-split">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <div class="hero-badges">
+          <span class="eyebrow">Free tool · No signup</span>
+          <a class="eyebrow eyebrow-hot" href="#grader">🔥 New: Roast Mode</a>
+        </div>
+        <h1>Will <span class="u">ChatGPT</span> recommend your business?</h1>
+        <p class="lead">Customers now ask AI assistants — not Google — where to go. Get a free A–F grade showing how visible your business is to ChatGPT, Perplexity and Gemini, plus plain-English fixes.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-accent" href="#grader">Grade my site →</a>
+          <button class="btn btn-ghost" id="heroRoastBtn" type="button">🔥 Roast me instead</button>
+        </div>
+        <div class="hero-trust">
+          <span><b>12</b> AI signals checked</span><span class="dot">·</span>
+          <span><b>100%</b> free forever</span><span class="dot">·</span>
+          <span><b>0</b> signup needed</span>
+        </div>
+        <p class="honest">Honest note: this grades the <b>signals</b> AI assistants use by reading your site — not a live ChatGPT query. Fix the signals, and real AI mentions follow.</p>
+      </div>
+      <div class="hero-visual">
+        <canvas id="hero3d" aria-hidden="true"></canvas>
+        <div class="hv-chip hv-a"><span class="pulse"></span>Live AI analysis</div>
+        <div class="hv-chip hv-b">Grade <b>A–F</b> in seconds</div>
+        <div class="hv-chip hv-c">🔥 Roast Mode inside</div>
+      </div>
     </div>
   </section>
 
@@ -309,6 +327,13 @@
   modeGradeBtn.addEventListener("click", function(){ mode="grade"; applyMode(); });
   modeRoastBtn.addEventListener("click", function(){ mode="roast"; applyMode(); });
   applyMode();
+
+  /* hero CTA: jump to grader in roast mode */
+  var heroRoastBtn = document.getElementById("heroRoastBtn");
+  if(heroRoastBtn) heroRoastBtn.addEventListener("click", function(){
+    mode = "roast"; applyMode();
+    document.getElementById("grader").scrollIntoView({behavior:"smooth", block:"start"});
+  });
 
   function setLoading(on, msg){
     spinner.classList.toggle("on", on);
