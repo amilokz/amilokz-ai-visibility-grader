@@ -175,8 +175,13 @@ function renderOpps(site){
 
 /* ---------- keyword ideas ---------- */
 function guessService(site){
-  var s = (site.h1 && site.h1.length < 60) ? site.h1 : (site.title.split(/[|–—\-]/)[0] || "").trim();
-  return s.slice(0, 60);
+  var s = (site.h1 && site.h1.length < 60) ? site.h1 : (site.title || "");
+  s = s.split(/[|–—]/)[0];                       // drop " | Brand"
+  s = s.split(" - ")[0];                         // drop " - Brand"
+  s = s.replace(/,\s*[A-Z][a-zA-Z]+(?:\s+[A-Z][a-z]+)?\s*$/,""); // drop trailing ", City"
+  s = s.replace(/\s+(in|at|near)\s+[A-Z][a-zA-Z]+(\s+[A-Z][a-z]+)?\s*$/,""); // drop " in City"
+  s = s.replace(/^(best|top)\s+/i,"");           // drop leading "best "
+  return s.trim().slice(0, 60);
 }
 function guessCity(site){
   var strs = [site.title, site.h1];
@@ -184,7 +189,8 @@ function guessCity(site){
     var m = /\b(?:in|at)\s+([A-Z][a-zA-Z]+(?:\s+[A-Z][a-z]+)?)/.exec(strs[i]||"");
     if(m) return m[1];
   }
-  return "";
+  var c = /,\s*([A-Z][a-zA-Z]+(?:\s+[A-Z][a-z]+)?)\s*(?:[|–—\-]|$)/.exec(site.title||"");
+  return c ? c[1] : "";
 }
 function topTopics(text){
   var stop = {the:1,and:1,for:1,you:1,your:1,with:1,our:1,are:1,that:1,this:1,from:1,have:1,has:1,will:1,can:1,all:1,more:1,about:1,contact:1,home:1,page:1,they:1,their:1,there:1,been:1,which:1,when:1,what:1,how:1,why:1,who:1,not:1,but:1,also:1,into:1,over:1,than:1,then:1,them:1,only:1,just:1,like:1,click:1,here:1,learn:1,read:1,view:1,call:1,today:1,free:1,best:1,new:1,now:1,get:1,one:1,two:1,services:1,service:1,business:1,company:1,welcome:1};
