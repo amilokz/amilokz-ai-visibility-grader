@@ -35,7 +35,8 @@ a{color:inherit}
 .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
 
 /* header */
-header.site{position:sticky;top:0;z-index:20;background:rgba(10,14,39,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+header.site{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+[data-theme="dark"] header.site{background:rgba(10,14,39,.88)}
 .nav{display:flex;align-items:center;gap:20px;height:62px}
 .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px;letter-spacing:-.01em;text-decoration:none}
 .brand .mark{width:28px;height:28px;flex:none}
