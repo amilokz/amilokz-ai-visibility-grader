@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free Backlink Opportunity Finder + Keyword Ideas — Visibility Booster</title>
+<meta name="description" content="Free tool: enter your website URL to find real backlink opportunities (directories, citations, review sites) and generate keyword ideas from your content. No signup, no fake numbers.">
+<script>try{if(localStorage.getItem("avg_theme")==="dark")document.documentElement.setAttribute("data-theme","dark");}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='13' fill='none' stroke='%2399801d' stroke-width='3'/><text x='16' y='22' text-anchor='middle' font-family='Georgia' font-size='15' font-weight='bold' fill='%2399801d'>A</text></svg>">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Can a tool generate backlinks for my website automatically?","acceptedAnswer":{"@type":"Answer","text":"No — and any tool that claims to is selling spam. Real backlinks come from real listings, directories and mentions on other websites. This tool finds genuine opportunities (business directories, citation sites, review platforms) and gives you a checklist to claim them yourself."}},
+{"@type":"Question","name":"Are directory backlinks still useful for SEO?","acceptedAnswer":{"@type":"Answer","text":"Yes, for local businesses especially. Consistent listings (name, address, phone) across reputable directories act as citations that Google trusts, and each one is a real backlink to your site."}},
+{"@type":"Question","name":"Where do the keyword ideas come from?","acceptedAnswer":{"@type":"Answer","text":"From your own website content — the tool reads your headings and topics, then builds long-tail variations (local, commercial, informational and AI-search questions). Check real search volume free in Google Keyword Planner before targeting them."}},
+{"@type":"Question","name":"Is the Visibility Booster free?","acceptedAnswer":{"@type":"Answer","text":"Yes — 100% free, no signup, no fake metrics. Everything runs in your browser."}}
+]}
+</script>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap nav">
+    <a class="brand" href="index.html">
+      <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="13.5"/><text x="16" y="21.8" text-anchor="middle">A</text></svg>
+      <span>AI Visibility Grader</span>
+    </a>
+    <nav class="links" aria-label="Primary">
+      <a href="index.html">Grader</a>
+      <a href="compare.html">Compare</a>
+      <a href="schema-generator.html">Schema Tool</a>
+      <a href="blog/">Guides</a>
+      <a href="about.html">About</a>
+    </nav>
+    <div class="nav-actions">
+      <a class="btn btn-accent btn-sm header-cta" id="headerCta" href="index.html#grader">Grade my site</a>
+      <button class="theme-btn" id="themeBtn" aria-label="Toggle light/dark theme" title="Light / dark"></button>
+      <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html">Grader</a>
+    <a href="compare.html">Compare</a>
+    <a href="schema-generator.html">Schema Tool</a>
+    <a href="blog/">Guides</a>
+    <a href="about.html">About</a>
+    <a class="btn btn-accent" href="index.html#grader">Grade my site — free</a>
+  </div>
+</header>
+
+<main>
+<div class="wrap">
+  <section class="hero page-hero">
+    <span class="eyebrow">Free tool · No signup</span>
+    <h1>Visibility <span class="gold-it">Booster</span></h1>
+    <p class="lead">Enter your website URL. Get a checklist of real backlink opportunities you can claim today — plus keyword ideas built from your own content. Honest numbers only: no auto-generated spam links, no invented search volumes.</p>
+  </section>
+
+  <section class="booster-stage">
+    <div class="field-row">
+      <div class="field" style="flex:1;margin:0">
+        <label for="b_url">Your website address</label>
+        <input type="url" id="b_url" placeholder="https://yourbusiness.com" autocomplete="url">
+      </div>
+      <button class="btn btn-accent btn-lg" id="b_go" type="button">Analyze my site</button>
+    </div>
+    <p class="hint" id="b_msg" role="status"></p>
+    <details class="paste-fallback">
+      <summary>Site won't load? Paste your homepage HTML instead</summary>
+      <textarea id="b_paste" rows="5" placeholder="Right-click your homepage → View page source → copy everything → paste here"></textarea>
+      <button class="btn btn-ghost btn-sm" id="b_pasteGo" type="button" style="margin-top:8px">Analyze pasted HTML</button>
+    </details>
+
+    <div class="mode-toggle" role="tablist" aria-label="Booster mode" style="margin-top:18px">
+      <button class="mode-pill active" id="tabLinks" role="tab" aria-selected="true" type="button">🔗 Backlink Opportunities</button>
+      <button class="mode-pill" id="tabKeys" role="tab" aria-selected="false" type="button">🔑 Keyword Ideas</button>
+    </div>
+    <p class="mode-desc" id="tabDesc">Real directories, citations and review sites where your business can earn backlinks — detected against your site.</p>
+
+    <div id="panelLinks" role="tabpanel">
+      <div class="booster-empty" id="linksEmpty">
+        <p>Run an analysis above to see your backlink opportunities.</p>
+      </div>
+      <div id="linksResult" hidden>
+        <div class="opp-score">
+          <div class="ring" id="oppRing"><div class="inner"><span class="num" id="oppNum">0</span><span class="grd">claimed</span></div></div>
+          <div class="score-meta">
+            <h2 id="oppHead">Your backlink opportunities</h2>
+            <p id="oppSub"></p>
+          </div>
+        </div>
+        <div id="oppGroups"></div>
+      </div>
+    </div>
+
+    <div id="panelKeys" role="tabpanel" hidden>
+      <div class="booster-empty" id="keysEmpty">
+        <p>Run an analysis above — or just type what you do below — to generate keyword ideas.</p>
+      </div>
+      <div id="keysResult" hidden>
+        <div class="field-row" style="margin-bottom:14px">
+          <div class="field" style="flex:1;margin:0">
+            <label for="k_service">What you do</label>
+            <input type="text" id="k_service" placeholder="e.g. dental clinic">
+          </div>
+          <div class="field" style="flex:1;margin:0">
+            <label for="k_city">City (optional)</label>
+            <input type="text" id="k_city" placeholder="e.g. Austin">
+          </div>
+          <button class="btn btn-accent" id="k_go" type="button" style="align-self:end">Generate ideas</button>
+        </div>
+        <div id="kwGroups"></div>
+        <p class="hint">Ideas are built from your content and proven templates — check real search volume free in Google Keyword Planner before targeting them. No invented numbers here.</p>
+      </div>
+    </div>
+
+    <div class="booster-note">
+      <b>An honest note:</b> no tool can <i>create</i> backlinks for you — real links live on other websites. What this tool does is find genuine, white-hat opportunities and hand you the checklist. Claim them one by one; each listing is a real backlink plus a citation Google trusts.
+    </div>
+  </section>
+
+  <div class="cta-strip">
+    <div>
+      <h3>Want us to do this for you?</h3>
+      <p>We claim listings, build citations and fix visibility for businesses — done for you.</p>
+    </div>
+    <a class="btn btn-accent" href="https://wa.me/923238559822?text=Hi!%20I%20used%20the%20Visibility%20Booster%20and%20want%20help%20with%20my%20backlinks.">Chat on WhatsApp</a>
+  </div>
+</div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="fbrand">
+        <a class="brand" href="index.html">
+          <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="13.5"/><text x="16" y="21.8" text-anchor="middle">A</text></svg>
+          <span>AI Visibility Grader</span>
+        </a>
+        <p>Free tools to see your business through AI's eyes — grades, schema, FAQs and roasts. Built by AKCLNT.</p>
+      </div>
+      <div class="fcol">
+        <h4>Tools</h4>
+        <a href="index.html">AI Visibility Grader</a>
+        <a href="index.html#grader">🔥 Roast Mode</a>
+        <a href="compare.html">Competitor Compare</a>
+        <a href="schema-generator.html">Schema Generator</a>
+        <a href="faq-generator.html">FAQ Generator</a>
+        <a href="booster.html">Visibility Booster</a>
+      </div>
+      <div class="fcol">
+        <h4>Resources</h4>
+        <a href="blog/">Guides</a>
+        <a href="about.html">About</a>
+      </div>
+      <div class="fcol">
+        <h4>Get help</h4>
+        <span class="fine">Want a better score? We do this for businesses.</span>
+        <a class="btn btn-accent btn-sm" href="https://wa.me/923238559822">Chat on WhatsApp</a>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <span class="fine">&copy; <span id="yr"></span> AI Visibility Grader — a free tool by <a href="https://akclnt.com" style="color:var(--accent)">AKCLNT</a>.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="booster.js"></script>
+<script src="site.js"></script>
+</body>
+</html>
