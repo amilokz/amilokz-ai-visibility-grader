@@ -232,7 +232,7 @@ footer.site{border-top:1px solid var(--line);padding:0;margin-top:20px;backgroun
 .fcol .btn{margin-top:4px}
 .fcol .fine{font-size:13px;margin-bottom:12px;display:block}
 .foot-bar{border-top:1px solid var(--line);padding:18px 0;display:flex;gap:14px;align-items:center;
-  flex-wrap:wrap;justify-content:space-between}
+  flex-wrap:wrap;justify-content:center;text-align:center}
 .foot-bar .fine{color:var(--faint);font-size:13px}
 
 /* section polish */
